@@ -5,7 +5,7 @@ A comprehensive hotel management system with a modern React frontend and secure 
 ## 🏗️ Project Structure
 
 ```
-HHHSSS/
+SAAS/
 ├── frontend/                 # React frontend application
 │   ├── src/
 │   │   ├── components/       # Reusable UI components
