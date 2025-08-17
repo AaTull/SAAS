@@ -32,36 +32,55 @@ function KitchenLogin() {
         }
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const response = await fetch('http://localhost:5000/api/auth/kitchen-login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password
+                })
+            });
 
-            if (formData.email && formData.password) {
-                localStorage.setItem('kitchenToken', 'demo-kitchen-token-123');
-                localStorage.setItem('kitchenEmail', formData.email);
-                localStorage.setItem('kitchenRole', 'kitchen');
-                navigate('/kitchen/dashboard');
-            } else {
-                setError('Invalid credentials');
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Login failed');
             }
-        } catch (err) {
-            setError('Login failed. Please try again.');
+
+            // Store authentication data
+            localStorage.setItem('kitchenToken', data.token);
+            localStorage.setItem('kitchenEmail', data.user.email);
+            localStorage.setItem('kitchenRole', data.user.role);
+            localStorage.setItem('kitchenId', data.user.id);
+            localStorage.setItem('hotelId', data.user.hotelId);
+            localStorage.setItem('hotelName', data.user.hotelName);
+
+            navigate('/kitchen/dashboard');
+        } catch (error) {
+            setError(error.message || 'Login failed. Please try again.');
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-amber-100 to-yellow-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
                 <div className="text-center">
-                    <div className="flex justify-center">
-                        <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl flex items-center justify-center">
-                            <ChefHat className="w-8 h-8 text-white" />
+                    <div className="flex justify-center mb-6">
+                        <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-yellow-600 rounded-3xl flex items-center justify-center shadow-lg shadow-amber-200/50">
+                            <ChefHat className="w-10 h-10 text-white" />
                         </div>
                     </div>
-                    <h2 className="mt-6 text-3xl font-bold text-gray-900">
+                    <h1 className="text-4xl font-bold text-amber-900 mb-2 font-['Poppins',sans-serif]">
+                        HungryScan
+                    </h1>
+                    <h2 className="text-2xl font-semibold text-amber-800 mb-2 font-['Poppins',sans-serif]">
                         Kitchen Staff Login
                     </h2>
-                    <p className="mt-2 text-sm text-gray-600">
+                    <p className="text-amber-700/80 font-medium">
                         Access your kitchen dashboard to manage orders
                     </p>
                 </div>
@@ -152,8 +171,8 @@ function KitchenLogin() {
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                     <h4 className="text-sm font-medium text-blue-900 mb-2">Demo Credentials</h4>
                     <p className="text-xs text-blue-700">
-                        Email: <span className="font-mono">kitchen@demo.com</span><br />
-                        Password: <span className="font-mono">password123</span>
+                        Email: <span className="font-mono">chef@demo.com</span><br />
+                        Password: <span className="font-mono">demo123</span>
                     </p>
                 </div>
 

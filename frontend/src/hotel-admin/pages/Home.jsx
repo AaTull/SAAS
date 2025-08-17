@@ -51,28 +51,28 @@ function Home() {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-amber-100 to-yellow-50">
             {/* Header */}
             <header className="bg-white shadow-sm border-b">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center py-4">
                         <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-blue-600 rounded-lg flex items-center justify-center">
+                            <div className="w-10 h-10 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-lg flex items-center justify-center">
                                 <Building2 className="w-6 h-6 text-white" />
                             </div>
-                            <h1 className="text-2xl font-bold text-gray-900">HungryScan</h1>
+                            <h1 className="text-2xl font-bold text-amber-900 font-['Poppins',sans-serif]">HungryScan</h1>
                         </div>
                         <nav className="hidden md:flex space-x-8">
                             <button
                                 onClick={() => setActiveTab('about')}
-                                className={`text-sm font-medium transition-colors ${activeTab === 'about' ? 'text-green-600' : 'text-gray-500 hover:text-gray-900'
+                                className={`text-sm font-medium transition-colors ${activeTab === 'about' ? 'text-amber-600' : 'text-amber-700 hover:text-amber-900'
                                     }`}
                             >
                                 About
                             </button>
                             <button
                                 onClick={() => setActiveTab('plans')}
-                                className={`text-sm font-medium transition-colors ${activeTab === 'plans' ? 'text-green-600' : 'text-gray-500 hover:text-gray-900'
+                                className={`text-sm font-medium transition-colors ${activeTab === 'plans' ? 'text-amber-600' : 'text-amber-700 hover:text-amber-900'
                                     }`}
                             >
                                 Plans
@@ -250,8 +250,8 @@ function Home() {
                                     <Link
                                         to="/admin/register"
                                         className={`w-full py-3 px-6 rounded-lg font-medium text-center transition-colors ${plan.popular
-                                                ? 'bg-green-600 text-white hover:bg-green-700'
-                                                : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                                            ? 'bg-green-600 text-white hover:bg-green-700'
+                                            : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                                             }`}
                                     >
                                         {plan.popular ? 'Get Started' : 'Choose Plan'}

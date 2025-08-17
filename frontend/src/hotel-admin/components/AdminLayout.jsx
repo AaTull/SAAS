@@ -47,10 +47,10 @@ function AdminLayout({ children }) {
                 <div className="fixed inset-y-0 left-0 flex w-64 flex-col bg-white">
                     <div className="flex h-16 items-center justify-between px-4">
                         <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-600 rounded-lg flex items-center justify-center">
+                            <div className="w-8 h-8 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-lg flex items-center justify-center">
                                 <Building2 className="w-5 h-5 text-white" />
                             </div>
-                            <span className="text-lg font-bold text-gray-900">HungryScan</span>
+                            <span className="text-lg font-bold text-amber-900 font-['Poppins',sans-serif]">HungryScan</span>
                         </div>
                         <button
                             onClick={() => setSidebarOpen(false)}
@@ -65,8 +65,8 @@ function AdminLayout({ children }) {
                                 key={item.name}
                                 to={item.href}
                                 className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${isActive(item.href)
-                                        ? 'bg-green-100 text-green-700'
-                                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                    ? 'bg-amber-100 text-amber-700'
+                                    : 'text-amber-700 hover:bg-amber-50 hover:text-amber-900'
                                     }`}
                                 onClick={() => setSidebarOpen(false)}
                             >
@@ -83,10 +83,10 @@ function AdminLayout({ children }) {
                 <div className="flex flex-col flex-grow bg-white border-r border-gray-200">
                     <div className="flex h-16 items-center px-4">
                         <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-600 rounded-lg flex items-center justify-center">
+                            <div className="w-8 h-8 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-lg flex items-center justify-center">
                                 <Building2 className="w-5 h-5 text-white" />
                             </div>
-                            <span className="text-lg font-bold text-gray-900">HungryScan</span>
+                            <span className="text-lg font-bold text-amber-900 font-['Poppins',sans-serif]">HungryScan</span>
                         </div>
                     </div>
                     <nav className="flex-1 space-y-1 px-2 py-4">
@@ -95,8 +95,8 @@ function AdminLayout({ children }) {
                                 key={item.name}
                                 to={item.href}
                                 className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${isActive(item.href)
-                                        ? 'bg-green-100 text-green-700'
-                                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                    ? 'bg-amber-100 text-amber-700'
+                                    : 'text-amber-700 hover:bg-amber-50 hover:text-gray-900'
                                     }`}
                             >
                                 <item.icon className="mr-3 h-5 w-5" />

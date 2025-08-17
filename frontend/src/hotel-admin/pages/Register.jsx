@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Building2, AlertCircle, CheckCircle, Upload } from 'lucide-react';
+import { Eye, EyeOff, Building2, AlertCircle, CheckCircle, Upload, Crown } from 'lucide-react';
 
 function Register() {
     const navigate = useNavigate();
@@ -123,19 +123,49 @@ function Register() {
         setError('');
 
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            const response = await fetch('http://localhost:5000/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    hotelName: formData.hotelName,
+                    hotelType: formData.hotelType,
+                    cuisine: formData.cuisine,
+                    address: formData.address,
+                    city: formData.city,
+                    state: formData.state,
+                    pincode: formData.pincode,
+                    phone: formData.phone,
+                    email: formData.email,
+                    adminName: formData.adminName,
+                    adminEmail: formData.adminEmail,
+                    adminPhone: formData.adminPhone,
+                    password: formData.password,
+                    subscriptionPlan: formData.subscriptionPlan,
+                    gstNumber: formData.gstNumber,
+                    panNumber: formData.panNumber,
+                    businessType: formData.businessType,
+                    seatingCapacity: formData.seatingCapacity
+                })
+            });
 
-            // Store registration data (in real app, this would be sent to API)
-            localStorage.setItem('hotelRegistration', JSON.stringify(formData));
-            localStorage.setItem('adminToken', 'demo-token-123');
-            localStorage.setItem('adminEmail', formData.adminEmail);
-            localStorage.setItem('adminRole', 'admin');
+            const data = await response.json();
 
-            // Redirect to dashboard
+            if (!response.ok) {
+                throw new Error(data.error || 'Registration failed');
+            }
+
+            // Store authentication data
+            localStorage.setItem('adminToken', data.token);
+            localStorage.setItem('adminEmail', data.user.email);
+            localStorage.setItem('adminRole', data.user.role);
+            localStorage.setItem('adminId', data.user.id);
+            localStorage.setItem('hotelId', data.user.hotelId);
+
             navigate('/admin/dashboard');
-        } catch (err) {
-            setError('Registration failed. Please try again.');
+        } catch (error) {
+            setError(error.message || 'Registration failed. Please try again.');
         } finally {
             setIsLoading(false);
         }
@@ -143,11 +173,11 @@ function Register() {
 
     const renderStep1 = () => (
         <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900">Hotel Information</h3>
+            <h3 className="text-xl font-semibold text-amber-900 font-['Poppins',sans-serif]">Hotel Information</h3>
 
             <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         Hotel Name *
                     </label>
                     <input
@@ -155,20 +185,20 @@ function Register() {
                         name="hotelName"
                         value={formData.hotelName}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                         placeholder="Enter hotel name"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         Hotel Type *
                     </label>
                     <select
                         name="hotelType"
                         value={formData.hotelType}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm font-medium text-amber-900"
                     >
                         <option value="">Select hotel type</option>
                         <option value="restaurant">Restaurant</option>
@@ -181,7 +211,7 @@ function Register() {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         Cuisine Type
                     </label>
                     <input
@@ -189,13 +219,13 @@ function Register() {
                         name="cuisine"
                         value={formData.cuisine}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                         placeholder="e.g., Indian, Chinese, Italian"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         Phone Number *
                     </label>
                     <input
@@ -203,14 +233,14 @@ function Register() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                         placeholder="Enter phone number"
                     />
                 </div>
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                     Address *
                 </label>
                 <textarea
@@ -218,14 +248,14 @@ function Register() {
                     value={formData.address}
                     onChange={handleChange}
                     rows={3}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                    className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                     placeholder="Enter complete address"
                 />
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         City *
                     </label>
                     <input
@@ -233,13 +263,13 @@ function Register() {
                         name="city"
                         value={formData.city}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                         placeholder="Enter city"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         State
                     </label>
                     <input
@@ -247,13 +277,13 @@ function Register() {
                         name="state"
                         value={formData.state}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                         placeholder="Enter state"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         Pincode
                     </label>
                     <input
@@ -261,18 +291,18 @@ function Register() {
                         name="pincode"
                         value={formData.pincode}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                         placeholder="Enter pincode"
                     />
                 </div>
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                     Hotel Logo
                 </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                    <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                <div className="border-2 border-dashed border-amber-300/50 rounded-2xl p-8 text-center bg-gradient-to-br from-amber-50/50 to-yellow-50/50 hover:from-amber-100/50 hover:to-yellow-100/50 transition-all duration-300">
+                    <Upload className="w-10 h-10 text-amber-500 mx-auto mb-3" />
                     <input
                         type="file"
                         accept="image/*"
@@ -281,10 +311,10 @@ function Register() {
                         id="logo-upload"
                     />
                     <label htmlFor="logo-upload" className="cursor-pointer">
-                        <span className="text-green-600 hover:text-green-500 font-medium">Upload logo</span>
-                        <span className="text-gray-500"> or drag and drop</span>
+                        <span className="text-amber-700 hover:text-amber-800 font-semibold">Upload logo</span>
+                        <span className="text-amber-600/80"> or drag and drop</span>
                     </label>
-                    <p className="text-xs text-gray-500 mt-1">PNG, JPG up to 2MB</p>
+                    <p className="text-xs text-amber-600/70 mt-2">PNG, JPG up to 2MB</p>
                 </div>
             </div>
         </div>
@@ -292,11 +322,11 @@ function Register() {
 
     const renderStep2 = () => (
         <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900">Admin Account</h3>
+            <h3 className="text-xl font-semibold text-amber-900 font-['Poppins',sans-serif]">Admin Account</h3>
 
             <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         Full Name *
                     </label>
                     <input
@@ -304,13 +334,13 @@ function Register() {
                         name="adminName"
                         value={formData.adminName}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                         placeholder="Enter your full name"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         Email Address *
                     </label>
                     <input
@@ -318,13 +348,13 @@ function Register() {
                         name="adminEmail"
                         value={formData.adminEmail}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                         placeholder="Enter your email"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         Phone Number
                     </label>
                     <input
@@ -332,7 +362,7 @@ function Register() {
                         name="adminPhone"
                         value={formData.adminPhone}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                         placeholder="Enter your phone number"
                     />
                 </div>
@@ -340,7 +370,7 @@ function Register() {
 
             <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         Password *
                     </label>
                     <div className="relative">
@@ -349,25 +379,25 @@ function Register() {
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
-                            className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                            className="w-full px-4 py-3 pr-12 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                             placeholder="Create a password"
                         />
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                            className="absolute inset-y-0 right-0 pr-4 flex items-center text-amber-600 hover:text-amber-700 transition-colors"
                         >
                             {showPassword ? (
-                                <EyeOff className="h-5 w-5 text-gray-400" />
+                                <EyeOff className="h-5 w-5" />
                             ) : (
-                                <Eye className="h-5 w-5 text-gray-400" />
+                                <Eye className="h-5 w-5" />
                             )}
                         </button>
                     </div>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         Confirm Password *
                     </label>
                     <div className="relative">
@@ -376,18 +406,18 @@ function Register() {
                             name="confirmPassword"
                             value={formData.confirmPassword}
                             onChange={handleChange}
-                            className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                            className="w-full px-4 py-3 pr-12 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                             placeholder="Confirm your password"
                         />
                         <button
                             type="button"
                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                            className="absolute inset-y-0 right-0 pr-4 flex items-center text-amber-600 hover:text-amber-700 transition-colors"
                         >
                             {showConfirmPassword ? (
-                                <EyeOff className="h-5 w-5 text-gray-400" />
+                                <EyeOff className="h-5 w-5" />
                             ) : (
-                                <Eye className="h-5 w-5 text-gray-400" />
+                                <Eye className="h-5 w-5" />
                             )}
                         </button>
                     </div>
@@ -398,11 +428,11 @@ function Register() {
 
     const renderStep3 = () => (
         <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900">Business Details</h3>
+            <h3 className="text-xl font-semibold text-amber-900 font-['Poppins',sans-serif]">Business Details</h3>
 
             <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         GST Number
                     </label>
                     <input
@@ -410,13 +440,13 @@ function Register() {
                         name="gstNumber"
                         value={formData.gstNumber}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                         placeholder="Enter GST number"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         PAN Number
                     </label>
                     <input
@@ -424,20 +454,20 @@ function Register() {
                         name="panNumber"
                         value={formData.panNumber}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                         placeholder="Enter PAN number"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         Business Type
                     </label>
                     <select
                         name="businessType"
                         value={formData.businessType}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm font-medium text-amber-900"
                     >
                         <option value="">Select business type</option>
                         <option value="proprietorship">Proprietorship</option>
@@ -449,7 +479,7 @@ function Register() {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-amber-800 mb-3 font-['Poppins',sans-serif]">
                         Seating Capacity
                     </label>
                     <input
@@ -457,7 +487,7 @@ function Register() {
                         name="seatingCapacity"
                         value={formData.seatingCapacity}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full px-4 py-3 border-2 border-amber-200/50 rounded-2xl focus:ring-4 focus:ring-amber-200/30 focus:border-amber-400 transition-all duration-300 bg-white/80 backdrop-blur-sm placeholder-amber-600/60 font-medium text-amber-900"
                         placeholder="Number of seats"
                     />
                 </div>
@@ -467,33 +497,33 @@ function Register() {
 
     const renderStep4 = () => (
         <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900">Choose Your Plan</h3>
-            <p className="text-gray-600">Select a subscription plan that fits your restaurant's needs</p>
+            <h3 className="text-xl font-semibold text-amber-900 font-['Poppins',sans-serif]">Choose Your Plan</h3>
+            <p className="text-amber-700/80 font-medium">Select a subscription plan that fits your restaurant's needs</p>
 
             <div className="grid md:grid-cols-3 gap-6">
                 {subscriptionPlans.map((plan) => (
                     <div
                         key={plan.id}
-                        className={`border rounded-lg p-6 cursor-pointer transition-all ${formData.subscriptionPlan === plan.id
-                                ? 'border-green-500 bg-green-50'
-                                : 'border-gray-200 hover:border-gray-300'
+                        className={`border-2 rounded-2xl p-6 cursor-pointer transition-all duration-300 transform hover:scale-105 ${formData.subscriptionPlan === plan.id
+                            ? 'border-amber-500 bg-gradient-to-br from-amber-50 to-yellow-50 shadow-lg shadow-amber-200/30'
+                            : 'border-amber-200/50 hover:border-amber-300 bg-white/80 backdrop-blur-sm'
                             }`}
                         onClick={() => setFormData({ ...formData, subscriptionPlan: plan.id })}
                     >
                         <div className="flex items-center justify-between mb-4">
-                            <h4 className="font-semibold text-gray-900">{plan.name}</h4>
+                            <h4 className="font-semibold text-amber-900 font-['Poppins',sans-serif]">{plan.name}</h4>
                             {formData.subscriptionPlan === plan.id && (
-                                <CheckCircle className="w-5 h-5 text-green-500" />
+                                <CheckCircle className="w-6 h-6 text-amber-500" />
                             )}
                         </div>
                         <div className="mb-4">
-                            <span className="text-2xl font-bold text-gray-900">{plan.price}</span>
-                            <span className="text-gray-600">/{plan.period}</span>
+                            <span className="text-2xl font-bold text-amber-900 font-['Poppins',sans-serif]">{plan.price}</span>
+                            <span className="text-amber-700/80">/{plan.period}</span>
                         </div>
                         <ul className="space-y-2">
                             {plan.features.map((feature, index) => (
-                                <li key={index} className="flex items-center text-sm text-gray-600">
-                                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                                <li key={index} className="flex items-center text-sm text-amber-700/80">
+                                    <CheckCircle className="w-4 h-4 text-amber-500 mr-2 flex-shrink-0" />
                                     {feature}
                                 </li>
                             ))}
@@ -505,19 +535,27 @@ function Register() {
     );
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-amber-100 to-yellow-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <div className="flex justify-center mb-4">
-                        <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-2xl flex items-center justify-center">
-                            <Building2 className="w-8 h-8 text-white" />
+                    <div className="flex justify-center mb-6">
+                        <div className="relative">
+                            <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-yellow-600 rounded-3xl flex items-center justify-center shadow-lg shadow-amber-200/50">
+                                <Crown className="w-10 h-10 text-white" />
+                            </div>
+                            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-full flex items-center justify-center">
+                                <Building2 className="w-3 h-3 text-white" />
+                            </div>
                         </div>
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                        Register Your Hotel
+                    <h1 className="text-4xl font-bold text-amber-900 mb-2 font-['Poppins',sans-serif]">
+                        HungryScan
                     </h1>
-                    <p className="text-gray-600">
+                    <h2 className="text-3xl font-bold text-amber-800 mb-2 font-['Poppins',sans-serif]">
+                        Register Your Hotel
+                    </h2>
+                    <p className="text-amber-700/80 font-medium text-lg">
                         Join HungryScan and transform your restaurant with QR-based ordering
                     </p>
                 </div>
@@ -528,16 +566,16 @@ function Register() {
                         {[1, 2, 3, 4].map((stepNumber) => (
                             <div key={stepNumber} className="flex items-center">
                                 <div
-                                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${step >= stepNumber
-                                            ? 'bg-green-600 text-white'
-                                            : 'bg-gray-200 text-gray-600'
+                                    className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${step >= stepNumber
+                                        ? 'bg-gradient-to-br from-amber-500 to-yellow-600 text-white shadow-lg shadow-amber-200/50'
+                                        : 'bg-amber-200/50 text-amber-700'
                                         }`}
                                 >
                                     {stepNumber}
                                 </div>
                                 {stepNumber < 4 && (
                                     <div
-                                        className={`w-16 h-1 mx-2 ${step > stepNumber ? 'bg-green-600' : 'bg-gray-200'
+                                        className={`w-20 h-1 mx-3 rounded-full transition-all duration-300 ${step > stepNumber ? 'bg-gradient-to-r from-amber-500 to-yellow-600' : 'bg-amber-200/50'
                                             }`}
                                     />
                                 )}
@@ -547,12 +585,12 @@ function Register() {
                 </div>
 
                 {/* Form */}
-                <div className="bg-white rounded-2xl shadow-sm border p-8">
+                <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl shadow-amber-200/30 border border-amber-100/50 p-8 transform transition-all duration-300 hover:shadow-amber-300/40">
                     <form onSubmit={handleSubmit}>
                         {error && (
-                            <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center space-x-3 mb-6">
+                            <div className="bg-red-50/80 border border-red-200 rounded-2xl p-4 flex items-center space-x-3 mb-6 backdrop-blur-sm">
                                 <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
-                                <span className="text-sm text-red-700">{error}</span>
+                                <span className="text-sm text-red-700 font-medium">{error}</span>
                             </div>
                         )}
 
@@ -567,7 +605,7 @@ function Register() {
                                 type="button"
                                 onClick={prevStep}
                                 disabled={step === 1}
-                                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className="px-8 py-3 border-2 border-amber-300/50 rounded-2xl text-amber-800 hover:bg-amber-50 hover:border-amber-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-semibold font-['Poppins',sans-serif]"
                             >
                                 Previous
                             </button>
@@ -576,7 +614,7 @@ function Register() {
                                 <button
                                     type="button"
                                     onClick={nextStep}
-                                    className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                                    className="px-8 py-3 bg-gradient-to-r from-amber-500 to-yellow-600 text-white rounded-2xl hover:from-amber-600 hover:to-yellow-700 transition-all duration-300 shadow-lg shadow-amber-200/50 font-semibold font-['Poppins',sans-serif]"
                                 >
                                     Next
                                 </button>
@@ -584,11 +622,11 @@ function Register() {
                                 <button
                                     type="submit"
                                     disabled={isLoading}
-                                    className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="px-8 py-3 bg-gradient-to-r from-amber-500 to-yellow-600 text-white rounded-2xl hover:from-amber-600 hover:to-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-amber-200/50 font-semibold font-['Poppins',sans-serif]"
                                 >
                                     {isLoading ? (
-                                        <div className="flex items-center space-x-2">
-                                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        <div className="flex items-center space-x-3">
+                                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                                             <span>Creating account...</span>
                                         </div>
                                     ) : (
@@ -602,11 +640,11 @@ function Register() {
 
                 {/* Footer */}
                 <div className="text-center mt-8">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-amber-700/80 font-medium">
                         Already have an account?{' '}
                         <Link
                             to="/admin/login"
-                            className="font-medium text-green-600 hover:text-green-500 transition-colors"
+                            className="font-semibold text-amber-800 hover:text-amber-900 transition-colors hover:underline"
                         >
                             Sign in
                         </Link>
