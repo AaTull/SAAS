@@ -22,6 +22,8 @@ import AdminRegister from "./hotel-admin/pages/Register.jsx";
 import AdminDashboard from "./hotel-admin/pages/Dashboard.jsx";
 import AdminLayout from "./hotel-admin/components/AdminLayout.jsx";
 import KitchenLogin from "./hotel-admin/pages/KitchenLogin.jsx";
+import MenuCategories from "./hotel-admin/pages/MenuCategories.jsx";
+import MenuItems from "./hotel-admin/pages/MenuItems.jsx";
 
 function AppContent() {
   const location = useLocation();
@@ -132,20 +134,42 @@ function AppContent() {
     <div className="App font-sans bg-white min-h-screen">
       <Toaster position="top-center" />
 
-      {/* Admin routes - no header */}
-      {location.pathname.startsWith('/admin') || location.pathname.startsWith('/kitchen') ? (
-        <Routes>
-          <Route path="/admin" element={<AdminHome />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/register" element={<AdminRegister />} />
-          <Route path="/admin/dashboard" element={
-            <AdminLayout>
-              <AdminDashboard />
-            </AdminLayout>
-          } />
-          <Route path="/kitchen/login" element={<KitchenLogin />} />
-        </Routes>
-      ) : (
+     {/* Admin routes - no header */}
+{location.pathname.startsWith('/admin') || location.pathname.startsWith('/kitchen') ? (
+  <Routes>
+    <Route path="/admin" element={<AdminHome />} />
+    <Route path="/admin/login" element={<AdminLogin />} />
+    <Route path="/admin/register" element={<AdminRegister />} />
+
+    {/* Admin pages with layout */}
+    <Route
+      path="/admin/dashboard"
+      element={
+        <AdminLayout>
+          <AdminDashboard />
+        </AdminLayout>
+      }
+    />
+    <Route
+      path="/admin/menu/categories"
+      element={
+        <AdminLayout>
+          <MenuCategories />
+        </AdminLayout>
+      }
+    />
+    <Route
+      path="/admin/menu/items"
+      element={
+        <AdminLayout>
+          <MenuItems />
+        </AdminLayout>
+      }
+    />
+
+    <Route path="/kitchen/login" element={<KitchenLogin />} />
+  </Routes>
+) : (
         /* Customer routes - with header */
         <>
           {location.pathname !== "/cart" && location.pathname !== "/order-success" && (
@@ -177,6 +201,8 @@ function AppContent() {
               <Route path="/order-success" element={<OrderSuccess />} />
               <Route path="/invoice" element={<InvoicePage />} />
             </Routes>
+         
+
           </main>
         </>
       )}

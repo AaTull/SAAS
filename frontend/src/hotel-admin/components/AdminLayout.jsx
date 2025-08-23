@@ -20,13 +20,14 @@ function AdminLayout({ children }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const navigation = [
-        { name: 'Dashboard', href: '/admin/dashboard', icon: BarChart3 },
-        { name: 'Orders', href: '/admin/orders', icon: ShoppingBag },
-        { name: 'Menu Management', href: '/admin/menu', icon: Menu },
-        { name: 'Staff Management', href: '/admin/staff', icon: Users },
-        { name: 'Reports', href: '/admin/reports', icon: BarChart3 },
-        { name: 'Settings', href: '/admin/settings', icon: Settings },
-    ];
+    { name: 'Dashboard', href: '/admin/dashboard', icon: BarChart3 },
+    { name: 'Orders', href: '/admin/orders', icon: ShoppingBag },
+    { name: 'Menu Categories', href: '/admin/menu/categories', icon: Menu },
+    { name: 'Menu Items', href: '/admin/menu/items', icon: Menu },
+    { name: 'Staff Management', href: '/admin/staff', icon: Users },
+    { name: 'Reports', href: '/admin/reports', icon: BarChart3 },
+    { name: 'Settings', href: '/admin/settings', icon: Settings },
+];
 
     const handleLogout = () => {
         localStorage.removeItem('adminToken');
